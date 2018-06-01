@@ -1,0 +1,213 @@
+﻿@model Tecnostore.Model.DB.Model.User
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>@Model.Nome</h2>
+<div>
+    <h4>Dados da Conta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Senha)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sobrenome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sobrenome)
+        </dd>
+    </dl>
+</div>
+<hr />
+@if (ViewBag.enderecosValidos != null && Enumerable.Count(ViewBag.enderecosValidos) > 0)
+{
+    <div class="row">
+        <h4 class="col-md-1">Endereço</h4>
+        <select onchange="selectEndereco()" id="selectEndereco" class="form-control col-md-offset-1">
+            <option value="" disabled selected style="display:none;">Selecione</option>
+            @foreach (var item in ViewBag.enderecosValidos)
+            {
+                <option value="@item.Id">@item.Descricao</option>
+            }
+        </select>
+        <a onclick="toggleForm()" class="btn btn-group-sm" style="color:gray">add</a>
+    </div>
+
+    <div class="row" id="partialEndereco">
+    </div>
+
+    <hr />
+
+}
+@if (ViewBag.enderecosValidos == null || Enumerable.Count(ViewBag.enderecosValidos) == 0)
+{
+    <div class="row">
+        @using (Html.BeginForm("AddEndereco", "User", FormMethod.Post))
+        {
+            <h4>Adicionar Endereço</h4>
+            <div class="col-md-offset-1" style="margin-top:2%">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+
+                        <input type="text" class="form-control" name="descricao" id="descricao" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="logradouro">Logradouro</label>
+
+                        <input type="text" class="form-control" name="logradouro" id="logradouro" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="cep">CEP</label>
+
+                        <input type="text" class="form-control" name="cep" id="cep" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro">Bairro</label>
+
+                        <input type="text" class="form-control" name="bairro" id="bairro" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="numero">Numero</label>
+
+                        <input type="text" class="form-control" name="numero" id="numero" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" class="form-control" name="complemento" id="complemento" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" class="form-control" name="cidade" id="cidade" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <input type="text" class="form-control" name="estado" id="estado" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="pais">Pais</label>
+                        <input type="text" class="form-control" name="pais" id="pais" required />
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Salvar" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+}
+@if (ViewBag.vendas != null && Enumerable.Count(ViewBag.enderecosValidos) > 0)
+{
+    <h2>Histórico de Compras</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Data</th>
+            <th>Valor</th>
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.vendas)
+        {
+            <tr>
+                <td>@item.Data</td>
+                <td>@item.ValorTotal</td>
+                @if (item.Status == 0)
+                {
+                    <td><a href="/Carrinho/Venda/@item.Id"> <span class="glyphicon glyphicon-credit-card"></span> Realizar Pagamento</a></td>
+                }
+                else if (item.Status == 1)
+                {
+                    <td><a href="/Carrinho/Venda/@item.Id" style="color:green"><span class="glyphicon glyphicon-check"></span> Pagamento Aprovado </a></td>
+                }
+            </tr>
+        }
+
+    </table>
+}
+<h2>Histórico de Pesquisas</h2>
+<table class="table table-striped">
+    <tr>
+        <th>Data</th>
+        <th>Categoria</th>
+        <th>Nome</th>
+        <th>Preço Minimo</th>
+        <th>Preço Maximo</th>
+    </tr>
+    @if (Model.Pesquisas != null)
+    {
+        foreach (var item in Model.Pesquisas)
+        {
+            <tr>
+                <td>@item.Data</td>
+                <td>@item.Categoria</td>
+                <td>@item.Nome</td>
+                <td>@item.PrecoMinimo</td>
+                <td>@item.PrecoMaximo</td>
+            </tr>
+
+        }
+    }
+</table>
+
+<script>function toggleForm() {
+       // var form = document.getElementById("formEndereco");
+       // form.setAttribute("style", "display:block");
+
+        $.ajax({
+            url: '/User/InserirEndereco/',
+            contentType: 'aplication/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        }).success(function (result) {
+            $('#partialEndereco').html(result)
+        }).error(function (xhr, status) {
+            alert(status);
+        })
+    }
+    function selectEndereco() {
+
+        var id = $('#selectEndereco').val();
+
+        $.ajax({
+            url: '/User/Endereco/' + id,
+            contentType: 'aplication/html; charset=utf-8',
+            type: 'GET',
+            dataType : 'html'
+        }).success(function (result) {
+            $('#partialEndereco').html(result)
+        }).error(function (xhr, status) {
+            alert(status);
+        })
+    }</script>
+
+

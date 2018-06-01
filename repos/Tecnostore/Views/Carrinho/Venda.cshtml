@@ -1,0 +1,182 @@
+﻿@model Tecnostore.Model.DB.Model.Venda
+
+@{
+    ViewBag.Title = "Venda";
+}
+
+<hr/>
+<hr/>
+<hr/>
+<hr/>
+<h2>Compra</h2>
+<div>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            Produtos
+        </dt>
+        @foreach (var item in Model.ItemVendas)
+        {
+            <dd>@item.Quantidade - <a href="/home/details/@item.Produto.Id"> @item.Produto.Nome</a> - R$@item.Valor</dd>
+        }
+        <dt>
+            Entrega
+        </dt>
+        <dd>
+            R$@Model.Carrinho.Entrega
+        </dd>
+        @if (@Model.Carrinho.Desconto != null)
+        {
+            <dt>Desconto</dt>
+            if (@Model.Carrinho.Desconto.Tipo == 1)
+            {
+                <dd>- 10% </dd>
+            }
+            else if (@Model.Carrinho.Desconto.Tipo == 2)
+            {
+                <dd>- 20%</dd>
+            }
+            else if (@Model.Carrinho.Desconto.Tipo == 3)
+            {
+                <dd>- R$20,00</dd>
+            }
+
+        }
+        <dt>
+            Total
+        </dt>
+        <dd>
+            R$@Html.DisplayFor(model => model.ValorTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Data)
+        </dd>
+        <dt>Status</dt>
+
+        @if (Model.Status == 0)
+        {
+            <dd>Aguardando Pagamento</dd>
+        }
+        else if (Model.Status == 1)
+        {
+            <dd style="color:green">Pagamento Confirmado</dd>
+        }
+        else if (Model.Status == 2)
+        {
+            <dd style="color:red;">Cancelado</dd>
+        }
+        else if (Model.Status == 3)
+        {
+            <dd style="color:cornflowerblue">Recebido</dd>
+        }
+    </dl>
+</div>
+<hr />
+@*PAYMENT*@
+@if (Model.Status == 0)
+{
+    <div class="container-fluid">
+        <input type="hidden" name="venda_id" value="@Model.Id" />
+        <button class="btn btn-lg btn-primary" onclick="submitBoleto()"> <span class="glyphicon glyphicon-barcode"></span> Gerar Boleto Bancário</button>
+        <button class="btn btn-lg btn-success" onclick="togglePayment()"> <span class="glyphicon glyphicon-credit-card"></span> Cartão de Crédito</button>
+    </div>
+
+
+    <div id="cartao" style="display:none" class="container-fluid">
+        <hr />
+        <h3>Dados do Cartão</h3>
+        <div class="form-horizontal" style="margin-left:4%">
+            <form action="/Carrinho/Cartao" method="post">
+                <input type="hidden" value="@Model.Id" name="venda_id" />
+                <div class="form-group">
+                    <label class="control-label">Numero do Cartao</label>
+                    <input type="text" name="numeroCartao" class="form-control" placeholder="Somente os Numeros, localizado na frente" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Codigo</label>
+                    <input type="text" name="codigo" class="form-control" placeholder="3 digitos, verso do cartao" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nome</label>
+                    <input type="text" name="nomeCliente" class="form-control" placeholder="Nome do Titular" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Validade</label>
+                    <div class="form-inline">
+                        <select name="validade_ano" class="form-control" required>
+                            <option value="" disabled selected>Ano</option>
+                            @for (int i = DateTime.Now.Year; i < DateTime.Now.Year + 30; i++)
+                            {
+                                if (i < 0)
+                                {
+                                    <option value="0@i">@i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select> -
+                        <select name="validade_mes" class="form-control" required>
+                            <option value="" disabled selected>Mes</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Parcelas:</label>
+                    <select class="form-control" name="parcelas">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i">@i x @Model.GetParcelas(i)</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nome Empresa</label>
+                    <input type="text" name="nomeEmpresa" class="form-control" placeholder="Nome da Empresa" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">CNPJ Empresa</label>
+                    <input type="text" name="cnpj" class="form-control" placeholder="CNPJ" required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Confirmar" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+@if (Model.Status == 1)
+{<form method="post" action="/Carrinho/NotaFiscal">
+        <input type="hidden" value="@Model.Id" name="venda_Id" />
+        <button class="btn btn-lg btn-primary" onclick=""> <span class="glyphicon glyphicon glyphicon-list-alt"></span> Gerar Nota Fiscal</button>
+    </form>
+}
+<script>function togglePayment() {
+            document.getElementById("cartao").style.display = "block";
+    }
+    function submitBoleto() {
+        var id = $('#venda_id').val();
+
+        $.ajax({
+            url: '/Carrinho/Boleto/' + id,
+            contentType: 'aplication/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        }).success(function (result) {
+            document.html.result(result);
+         //   $('#partialEndereco').html(result)
+        }).error(function (xhr, status) {
+            alert(status);
+        })
+    }
+ </script>

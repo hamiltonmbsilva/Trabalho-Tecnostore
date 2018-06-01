@@ -1,0 +1,61 @@
+﻿@model Tecnostore.Model.DB.Model.Produto
+
+@{
+    ViewBag.Title = "DetailsProduto";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>@Model.Nome</h2>
+@using (Html.BeginForm("AddEstoque", "Admin", FormMethod.Post))
+{
+    <input type="hidden" name="produtoId" value="@Model.Id" />
+    <input type="submit" value="Adicionar ao Estoque" class="btn btn-default" />
+}
+
+<div>
+
+    <hr />
+    <div class="row">
+
+        <div class="col-md-6">
+            <h4>Detalhes</h4>
+            <p>@Html.ActionLink("Edit", "EditProduto", new { id = Model.Id })</p>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Nome)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Descricao)
+                </dd>
+                <dd>
+                    <p>
+                        @Html.ActionLink("Voltar", "Index")
+                    </p>
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <h4>Imagens</h4>
+            <p>@Html.ActionLink("Adicionar", "ImagemProduto", new { id = Model.Id })</p>
+        </div>
+        @if (Model.Imagens != null)
+        {
+            foreach (var img in Model.Imagens)
+            {
+                <div class="col-md-4">
+                    <img src="~/Upload/@img.Img" class="img-thumbnail" />
+                </div>
+            }
+        }
+
+    </div>
+</div>

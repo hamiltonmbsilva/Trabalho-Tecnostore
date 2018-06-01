@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNet.Identity
+@if (HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+{
+    using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/Home/Carrinho"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+            <li><a href="/User"><span class="glyphicon glyphicon-user"></span></a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Home/Carrinho"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+        <li>@Html.ActionLink("Cadastrar", "Register", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Entrar", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+

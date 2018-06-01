@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Tecnostore.Model.DB.Model.Produto>
+
+@{
+    ViewBag.Title = "ComprarProdutos";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>Adicionar Produto ao Estoque</h2>
+<hr />
+<div class="row" style="margin:2%;">
+
+    @using (Html.BeginForm("ProcurarProduto", "Admin", FormMethod.Post))
+    {
+        <div class="form-inline">
+            <div class="form-group">
+                <input type="text" class="form-control" name="nome_produto" placeholder="Nome" />
+                <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </div>
+        </div>
+    }
+
+</div>
+<hr />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.ActionLink("Selecionar", "SelecionarProduto", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

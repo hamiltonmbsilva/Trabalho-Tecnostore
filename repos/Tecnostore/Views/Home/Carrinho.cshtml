@@ -1,0 +1,114 @@
+﻿@model Tecnostore.Model.DB.Model.Carrinho
+
+{
+    ViewBag.Title = "Carrinho";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<hr />
+<hr />
+<hr />
+<hr />
+
+<h2>Carrinho</h2>
+<table class="table table-striped">
+    <tr>
+        <th>Produto</th>
+        <th>Valor</th>
+        <th>Quantidade</th>
+    </tr>
+    @foreach (var item in Model.CarrinhoProduto)
+    {
+        <tr>
+            <td><a href="/Home/Details/@item.Estoque.Produto.Id">@item.Estoque.Produto.Nome</a></td>
+            <td>R$ @item.getValorQuantidade()</td>
+            <td>
+                @using (Html.BeginForm("AumentarProduto", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="carrinhoProdutoID" value="@item.Id" />
+                    <div class="col-lg-2">
+                        <input onchange="this.form.submit()" class="form-control" type="number" value="@item.Quantidade" name="quantidade" style="width:70%" />
+                    </div>
+                }
+                @using (Html.BeginForm("DeletarProduto", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="carrinhoProdutoID" value="@item.Id" />
+                    <button class="btn btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                }
+            </td>
+        </tr>
+    }
+</table>
+<table class="table table-condensed">
+    <tr>
+        <td>
+            Cupom de Desconto:
+        </td>
+        <td>
+            @if (Model.Desconto != null)
+            {
+                if (Model.Desconto.Tipo == 1)
+                {
+                    <p style="color:red"> - 10%</p>
+
+                }
+                else if (Model.Desconto.Tipo == 2)
+                {
+                    <p style="color:red"> - 20%</p>
+                }
+                else if (Model.Desconto.Tipo == 3)
+                {
+                    <p style="color:red"> - R$20,00</p>
+                }
+
+            }
+        </td>
+
+        <td>
+            @if (Model.Desconto == null)
+            {
+                using (Html.BeginForm("CupomDesconto", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="carrinhoId" value="@Model.Id" />
+                    <div class="col-lg-6">
+                        <input class="form-control" type="text" name="desconto" style="width:70%" />
+                    </div>
+                    <input type="submit" value="Validar" class="btn btn-sm" />
+                }
+            }
+            else
+            {
+                <p>@Model.Desconto.Codigo</p>
+            }
+        </td>
+    </tr>
+    @if (Model.Entrega > 0)
+    {
+        <tr>
+            <td>Taxa de Entrega:</td>
+            <td>+ R$ @Model.Entrega</td>
+            <td></td>
+        </tr>
+    }
+
+    <tr>
+        <td>
+            TOTAL
+        </td>
+        <td>
+            R$ @Model.getValorTotal()
+        </td>
+        @if (HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+        {
+
+            <td><button class="btn btn-group-sm" onclick="window.location.href='/Carrinho'">Finalizar Compra</button></td>
+        }
+        else
+        {
+            <td><button class="btn btn-group-sm" onclick="window.location.href='/Home/Register'">Cadastrar e Finalizar</button></td>
+        }
+    </tr>
+</table>

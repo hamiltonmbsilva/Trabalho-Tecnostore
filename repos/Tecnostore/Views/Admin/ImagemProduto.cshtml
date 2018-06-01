@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Tecnostore.Model.DB.Model.Imagem>
+
+@{
+    ViewBag.Title = "ImagemProduto";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>@ViewBag.produtoNOME</h2>
+<hr />
+<h4>Imagens</h4>
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <img src="~/Upload/@item.Img" class="img-responsive" /><br />
+            @Html.ActionLink("Delete", "DeleteImagem", new { id = item.Id, produto = item.Produto.Id })
+        </div>
+
+    }
+</table>
+<hr />
+@using (Html.BeginForm("SalvarImagem", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        @Html.Label("Imagem", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" id="img" name="img" class="form-control" />
+        </div>
+    </div>
+    <input type="hidden" value="@ViewBag.produtoID" name="produtoID" />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Salvar" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>

@@ -1,0 +1,49 @@
+﻿@model Tecnostore.Model.DB.Model.Endereco
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+@using (Html.BeginForm("SalvarEndereco", "User", FormMethod.Post, new { onsubmit = "return confirm('Deseja atualizar o endereco selecionado? '); " }))
+{
+    <input type="hidden" name="enderecoID" value="@Model.Id">
+    <dl class="col-lg-offset-1">
+        <dt>Descrição</dt>
+        <dd><input class="form-control" type="text" id="descricao" name="descricao" value="@Model.Descricao" required /></dd>
+        <dt>Logradouro</dt>
+        <dd><input class="form-control" type="text" name="logradouro" value="@Model.Logradouro" required /></dd>
+        <dt>CEP</dt>
+        <dd><input class="form-control" type="text" name="cep" value="@Model.CEP" required /></dd>
+        <dt>Bairro</dt>
+        <dd><input class="form-control" type="text" name="bairro" value="@Model.Bairro" required /></dd>
+        <dt>Numero</dt>
+        <dd><input class="form-control" type="text" name="numero" value="@Model.Numero" required /></dd>
+        <dt>Complemento</dt>
+        <dd><input class="form-control" type="text" name="complemento" value="@Model.Complemento" required /></dd>
+        <dt>Cidade</dt>
+        <dd><input class="form-control" type="text" name="cidade" value="@Model.Cidade" required /></dd>
+        <dt>Estado</dt>
+        <dd><input class="form-control" type="text" name="estado" value="@Model.Estado" required /></dd>
+        <dt>Pais</dt>
+        <dd><input class="form-control" type="text" name="pais" value="@Model.Pais" required /></dd>
+    </dl>
+    <div class="row col-lg-offset-1">
+        <button class="btn btn-sm"><span class="glyphicon glyphicon-pencil"></span> Salvar</button>
+    </div>
+}
+<div class="col-lg-offset-1 row" style="margin-top:2%">
+    @using (Html.BeginForm("DeleteEndereco", "User", FormMethod.Post, new { id = "formDelete", onsubmit = "return confirm('Deseja excluir o endereco selecionado? '); " }))
+    {
+        <input type="hidden" value="@Model.Id" name="enderecoID" />
+        <button class="btn btn-sm"><span class="glyphicon glyphicon-trash"></span> Excluir</button>
+    }
+
+</div>
+<script>
+    function confirmDelete() {
+        var result = confirm("Deseja Deletar o Endereço " + $('#descricao').val());
+        if (result) {
+            return true;
+        }
+
+    }</script>

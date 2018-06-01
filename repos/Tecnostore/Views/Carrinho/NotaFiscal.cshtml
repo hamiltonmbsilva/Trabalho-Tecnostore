@@ -1,0 +1,112 @@
+﻿@model Tecnostore.Model.DB.Model.Venda
+
+@{
+    Layout = null;
+    ViewBag.Title = "NotaFiscal";
+}
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <h1>NF-e Tropical Bears</h1>
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Modelo</th>
+                        <th>Quantidade</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ItemVendas)
+                    {
+                        <tr>
+                            <td>@item.Produto.Id</td>
+                            <td>@item.Produto.Nome</td>
+                            <td>@item.Quantidade</td>
+                            <td>@item.Valor</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <th>Total:</th>
+                        <td>@Model.ValorTotal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Emitente</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>CNPJ</th>
+                        <th>Nome/Razao Social</th>
+                        <th> UF </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            1111111111
+                        </td>
+                        <td>
+                            Tecnostore LTDA
+                        </td>
+                        <td>MG</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Destinatario</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>CPF/CNPJ</th>
+                        <th>Nome/Razao Social</th>
+                        <th>CEP</th>
+                        <th>UF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1111111111</td>
+                        <td>@Model.Endereco.Usuario.Nome</td>
+                        <td>@Model.Endereco.CEP</td>
+                        <td>MG</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Situacao Atual: Autorizada</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Natureza da Operacao</th>
+                        <th>Forma de Pagamento</th>
+                        <th>Parcelas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Venda</td>
+                        <td>@Model.FormaPagamento.Descricao</td>
+                        <td>@Model.Parcelas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <a href="/carrinho/venda/@Model.Id" class="btn btn-block">Voltar</a>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>

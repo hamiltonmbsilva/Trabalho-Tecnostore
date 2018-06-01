@@ -1,0 +1,80 @@
+﻿@model Tecnostore.Model.DB.Model.Comentario
+
+@{
+    ViewBag.Title = "DetalhesComentarios";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<div class="container-fluid">
+    <div class="col-md-6">
+        <h2>Comentario</h2>
+        <h4>Usuario: @Model.Usuario.Nome</h4>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Produto.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Produto.Nome)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Avaliacao)
+            </dt>
+            <dd>
+                @if (Model.Avaliacao == "Bom")
+                {
+                    <span class="glyphicon glyphicon-thumbs-up" style="color:green">Bom</span>
+                }
+                else if (Model.Avaliacao == "Ruim")
+                {
+                    <span class="glyphicon glyphicon-thumbs-down" style="color:red">Ruim</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Avaliacao)
+                }
+
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Texto)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Texto)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Data);
+            </dt>
+            <dd>
+                @Model.Data.Day / @Model.Data.Month / @Model.Data.Year
+            </dd>
+            <dd>
+                <p>
+                    @Html.ActionLink("Voltar", "Comentarios")
+                </p>
+            </dd>
+            <dd>
+                <p>
+                    <a href="/admin/DeletarComentario/@Model.Id" onclick="return confirm('Deseja Excluir Esse Comentario?')">Deletar</a>
+                </p>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h4>Imagens</h4>
+        <p>@Html.ActionLink("Adicionar", "ImagemProduto", new { id = Model.Id })</p>
+    </div>
+    @if (Model.Produto.Imagens != null)
+    {
+        foreach (var img in Model.Produto.Imagens)
+        {
+            <div class="col-md-4">
+                <img src="~/Upload/@img.Img" class="img-thumbnail" />
+                <p>Media de avaliacao: <span style="color:green">@Model.Produto.MediaAvaliacao() %</span> / <span style="color:red">@Model.Produto.MediaAvaliacaoNegativa() %</span></p>
+            </div>
+        }
+    }
+</div>

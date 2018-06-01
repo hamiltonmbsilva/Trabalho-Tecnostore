@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Tecnostore.Model.DB.Model.Desconto>
+
+@{
+    ViewBag.Title = "Desconto";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>Cupons de Desconto</h2>
+<div class="form-group">
+    @using (Html.BeginForm("CreateDesconto", "Admin", FormMethod.Post))
+    {
+        <label for="codigo" class="control-label">Codigo</label>
+        <input type="text" name="codigo" id="codigo" class="form-control" />
+
+        <label for="tipo" class="control-label">Tipo</label>
+        <select id="tipo" class="form-control" name="tipo">
+            <option value="1" selected>
+                10%
+            </option>
+            <option value="2">
+                20%
+            </option>
+            <option value="3">
+                R$20,00
+            </option>
+        </select>
+
+        <button class="btn btn-default" type="submit">Adicionar</button>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @if (@item.Tipo == 1)
+                {
+                    <p>10%</p>
+                }
+                @if (@item.Tipo == 2)
+                {
+                    <p>20%</p>
+                }
+                @if (@item.Tipo == 3)
+                {
+                    <p>R$ 20,00</p>
+                }
+
+            </td>
+            <td>
+                <a href="/Admin/DeleteDesconto/@item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
+    }
+</table>

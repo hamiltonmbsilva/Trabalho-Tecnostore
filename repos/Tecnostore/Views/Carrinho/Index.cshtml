@@ -1,0 +1,189 @@
+﻿@model Tecnostore.Model.DB.Model.Carrinho
+
+@{
+                /**/
+
+                ViewBag.Title = "Index";
+}
+<hr />
+<hr />
+<hr />
+<hr />
+
+<h2>Finalizar Pedido</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var item in Model.CarrinhoProduto)
+        {
+            <dt>@item.Quantidade - @item.Estoque.Produto.Nome</dt>
+            <dd>R$ @item.getValor()</dd>
+        }
+        @if (@Model.Desconto != null)
+        {
+            <dt>Desconto</dt>
+            if (@Model.Desconto.Tipo == 1)
+            {
+                <dd>- 10%</dd>
+            }
+            else if (@Model.Desconto.Tipo == 2)
+            {
+                <dd>- 20%</dd>
+            }
+            else if (@Model.Desconto.Tipo == 3)
+            {
+                <dd>- R$20,00</dd>
+            }
+
+        }
+        <dt>
+            Entrega
+        </dt>
+        <dd>
+            + R$ 10,0
+        </dd>
+        <dt>
+            Total
+        </dt>
+        <dd>
+            R$ @Model.getValorTotal()
+        </dd>
+    </dl>
+</div>
+
+<!--ADRESS-->
+<hr />
+@if (ViewBag.enderecosValidos != null && Enumerable.Count(ViewBag.enderecosValidos) > 0)
+{
+    <h3 style="margin-bottom: 2%">Endereço para entrega <button onclick="novoEndereco()" id="toggleButton" class="btn btn-sm">Novo</button></h3>
+    <!--ComboBox Adress-->
+    <form action="/Carrinho/SelecionarEndereco" method="post" id="comboBoxEndereco">
+        <div class="form-inline">
+            <div class="form-group">
+                <select name="enderecoId" class="form-control" id="enderecoId">
+                    @foreach (var item in ViewBag.enderecosValidos)
+                    {
+                        <option value="@item.Id">@item.Descricao</option>
+                    }
+                </select>
+                <br />
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Confirmar" />
+            </div>
+
+        </div>
+    </form>
+
+    <!--Form Adress-->
+    <form action="/Carrinho/Adicionar" method="post" style="display:none" id="novoEndereco">
+        <div class="form-horizontal" id="detailsAdress">
+            <div class="form-group">
+                <label for="descricao" class="control-label">Descrição:</label>
+                <input type="text" id="descricao" name="descricao" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="cep" class="control-label">CEP:</label>
+                <input type="text" id="CEP" name="CEP" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="logradouro" class="control-label">Logradouro:</label>
+                <input type="text" id="logradouro" name="logradouro" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="bairro" class="control-label">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="numero" class="control-label">Numero:</label>
+                <input type="text" id="numero" name="numero" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="complemento" class="control-label">Complemento:</label>
+                <input type="text" name="complemento" id="complemento" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="cidade" class="control-label">Cidade:</label>
+                <input type="text" name="cidade" id="cidade" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="estado" class="control-label">Estado:</label>
+                <input type="text" name="estado" id="estado" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="pais" class="control-label">Pais:</label>
+                <input type="text" name="pais" id="pais" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Confirmar" />
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <h3 style="margin-bottom: 2%">Endereço para entrega</h3>
+
+    using (Html.BeginForm("Adicionar", "Carrinho", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="descricao" class="control-label">Descrição:</label>
+            <input type="text" id="descricao" name="descricao" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="cep" class="control-label">CEP:</label>
+            <input type="text" id="CEP" name="CEP" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="logradouro" class="control-label">Logradouro:</label>
+            <input type="text" id="logradouro" name="logradouro" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="bairro" class="control-label">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="numero" class="control-label">Numero:</label>
+            <input type="text" id="numero" name="numero" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="complemento" class="control-label">Complemento:</label>
+            <input type="text" name="complemento" id="complemento" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="cidade" class="control-label">Cidade:</label>
+            <input type="text" name="cidade" id="cidade" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="estado" class="control-label">Estado:</label>
+            <input type="text" name="estado" id="estado" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="pais" class="control-label">Pais:</label>
+            <input type="text" name="pais" id="pais" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Confirmar" />
+        </div>
+    }
+}
+<hr />
+<h3></h3>
+<p>
+    @Html.ActionLink("Voltar", "Index")
+</p>
+
+<script>
+    function novoEndereco() {
+        document.getElementById("comboBoxEndereco").style.display = "none";
+        document.getElementById("novoEndereco").style.display = "block";
+        document.getElementById("toggleButton").innerHTML = "Cancel";
+        document.getElementById("toggleButton").onclick = cancelNovoEndereco;
+    }
+    function cancelNovoEndereco() {
+        document.getElementById("comboBoxEndereco").style.display = "block";
+        document.getElementById("novoEndereco").style.display = "none";
+        document.getElementById("toggleButton").innerHTML = "Novo";
+        document.getElementById("toggleButton").onclick = novoEndereco;
+    }</script>

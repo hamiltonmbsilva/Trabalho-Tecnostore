@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Tecnostore.Model.DB.Model.Produto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<hr />
+<hr />
+<hr />
+<hr />
+<h2>Área do Administrador - Senha Atual : @ViewBag.NovaSenha</h2>
+<p>
+    @Html.ActionLink("Adicionar Produto", "AddProduto", "Admin")
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayName("Categoria")
+        </th>
+        <th>
+            Imagens
+        </th>
+        <th>Ações</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Nome)
+            </td>
+            <td>
+                <a href="/Admin/ImagemProduto/@item.Id"><span class="glyphicon glyphicon-picture"></span></a>
+            </td>
+            <td>
+                <a href="/Admin/EditProduto/@item.Id"><span class="glyphicon glyphicon-pencil"></span></a> |
+                <a href="/Admin/DetailsProduto/@item.Id"><span class="glyphicon glyphicon-eye-open"></span></a> |
+                <a href="/Admin/DeleteProduto/@item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
+    }
+</table>

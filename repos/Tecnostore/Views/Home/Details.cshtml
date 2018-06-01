@@ -1,0 +1,99 @@
+﻿@model Tecnostore.Model.DB.Model.Estoque
+
+@{
+    ViewBag.Title = "Details";
+}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<hr />
+<hr />
+<hr />
+<hr />
+
+<div>
+
+    <div class="row">
+        <hr />
+        <div class="col-lg-6">
+            <h2>@Model.Produto.Nome</h2>
+            <h4>R$@Model.getPreco()</h4>
+            <p>@Model.Produto.Descricao</p>
+            <!--Add to Cart-->
+            @using (Html.BeginForm("AddToCart", "Home", FormMethod.Post))
+            {
+                <input type="hidden" value="@Model.Id" name="estoqueId" />
+                <button class="btn btn-default btn-sm">Adicionar Ao Carrinho <span class="glyphicon glyphicon-shopping-cart"></span></button>
+            }
+
+            <hr />
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>Avaliações:</h4>
+                    <p><span style="color:green"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Produto.MediaAvaliacao()%</span> / <span style="color:red"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Produto.MediaAvaliacaoNegativa()%</span> </p>
+                </div>
+            </div>
+            <div>
+                @foreach (var item in Model.Produto.Comentarios)
+                {
+                    <!-- Left-aligned -->
+                    <div class="media">
+                        <!--  <div class="media-left">
+                            <img src="img_avatar1.png" class="media-object" style="width:60px">
+                          </div> -->
+                        <div class="media-body">
+                            @if (item.Avaliacao == "Bom")
+                            {
+                                <h4><span style="font-weight:bold">@item.Usuario.Nome </span> &nbsp &nbsp <span class="glyphicon glyphicon-thumbs-up" style="color:green"></span></h4>
+                            }
+                            @if (item.Avaliacao == "Ruim")
+                            {
+                                <h4><span style="font-weight:bold">@item.Usuario.Nome </span> &nbsp &nbsp <span class="glyphicon glyphicon-thumbs-down" style="color:red"></span></h4>
+                            }
+                            <p>@item.Texto</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--Checking if is logged in to post a comment-->
+
+            @if (HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                using (Html.BeginForm("SaveComment", "Home", FormMethod.Post))
+                {
+                    <hr />
+                    <h4>Avalie este produto:</h4><br />
+                    <input type="hidden" value="@Model.Produto.Id" name="produtoID" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <select name="avaliacao" class="form-control" required>
+                                    <option value="Bom" data-content="<i class='glyphicon glyphicon-thumbs-up'></i>" selected>Bom</option>
+                                    <option value="Ruim" data-content="<i class='glyphicon glyphicon-thumbs-down'></i>">Ruim</option>
+                                </select>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="texto" placeholder="Comentário" required></textarea>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Enviar" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+        <div class="col-lg-6">
+        </div>
+        <div class="col-md-4">
+            <img src="~/Upload/@Model.Produto.Imagens.FirstOrDefault().Img" class="img-thumbnail" />
+        </div>
+    </div>
+</div>

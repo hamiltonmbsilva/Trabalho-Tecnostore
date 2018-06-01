@@ -1,0 +1,42 @@
+﻿@model Tecnostore.Model.DB.Model.Estoque
+
+@{
+    ViewBag.Title = "AddEstoque";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>Comprar <a href="/Admin/DetailsProduto/@ViewBag.Produto.Id">@ViewBag.Produto.Nome</a></h2>
+@using (Html.BeginForm("CreateEstoque", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Adicionar ao Estoque</h4>
+        <hr />
+        <input type="hidden" value="@ViewBag.Produto.Id" name="produtoId" />
+        <div class="form-group">
+            <label for="Quantidade" class="control-label col-md-2">Quantidade</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" id="quantidade" name="quantidade" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="precoCusto" class="control-label col-md-2">Preço</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" id="precoCusto" name="precoCusto" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Adicionar" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+<div>
+    @Html.ActionLink("Cancelar", "Compras")
+</div>

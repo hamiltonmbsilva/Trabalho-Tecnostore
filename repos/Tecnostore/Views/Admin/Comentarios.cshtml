@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Tecnostore.Model.DB.Model.Comentario>
+
+@{
+    ViewBag.Title = "Comentarios";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<h2>Comentarios</h2>
+<hr />
+@using (Html.BeginForm("ProcurarComentario", "Admin", FormMethod.Post))
+{
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" name="nome_produto" placeholder="Nome do Produto" />
+            <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </div>
+    </div>
+}
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Produto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Avaliacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produto.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Avaliacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Avaliacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.ActionLink("Detalhes", "DetalhesComentarios", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

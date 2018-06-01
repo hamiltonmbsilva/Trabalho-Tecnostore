@@ -1,0 +1,106 @@
+﻿@model Tecnostore.Model.DB.Model.Venda
+
+@{
+    ViewBag.Title = "Venda";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<h2>Venda</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Produtos
+        </dt>
+        @foreach (var item in Model.ItemVendas)
+        {
+            <dd>@item.Quantidade - <a href="/home/details/@item.Produto.Id"> @item.Produto.Nome</a> - R$@item.Valor</dd>
+        }
+        <dt>
+            Entrega
+        </dt>
+        <dd>
+            R$@Model.Carrinho.Entrega
+        </dd>
+        @if (@Model.Carrinho.Desconto != null)
+        {
+            <dt>Desconto</dt>
+            if (@Model.Carrinho.Desconto.Tipo == 1)
+            {
+                <dd>- 10% </dd>
+            }
+            else if (@Model.Carrinho.Desconto.Tipo == 2)
+            {
+                <dd>- 20%</dd>
+            }
+            else if (@Model.Carrinho.Desconto.Tipo == 3)
+            {
+                <dd>- R$20,00</dd>
+            }
+
+        }
+        <dt>
+            Total
+        </dt>
+        <dd>
+            R$@Html.DisplayFor(model => model.ValorTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Data)
+        </dd>
+        <dt>Status</dt>
+
+        @if (Model.Status == 0)
+        {
+            <dd>Aguardando Pagamento</dd>
+        }
+        else if (Model.Status == 1)
+        {
+            <dd style="color:green">Pagamento Confirmado</dd>
+        }
+        else if (Model.Status == 2)
+        {
+            <dd style="color:red;">Cancelado</dd>
+        }
+        else if (Model.Status == 3)
+        {
+            <dd style="color:cornflowerblue">Recebido</dd>
+        }
+        <dt>
+            Metodo de Pagamento
+        </dt>
+        <dd>
+            @Model.FormaPagamento.Descricao
+        </dd>
+        <dt>Parcelas:</dt>
+        <dd>
+            @Model.Parcelas
+        </dd>
+    </dl>
+</div>
+<hr />
+<div>
+    <h3>Dados da Entrega</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Destinatario</dt>
+        <dd>@Model.Carrinho.Usuario.Nome @Model.Carrinho.Usuario.Sobrenome</dd>
+        <dt>CEP</dt>
+        <dd>@Model.Endereco.CEP</dd>
+        <dt>Logradouro</dt>
+        <dd>@Model.Endereco.Logradouro</dd>
+        <dt>Bairro</dt>
+        <dd>@Model.Endereco.Bairro</dd>
+        <dt>Numero</dt>
+        <dd>@Model.Endereco.Numero</dd>
+        <dt>Complemento</dt>
+        <dd>@Model.Endereco.Complemento</dd>
+    </dl>
+</div>
