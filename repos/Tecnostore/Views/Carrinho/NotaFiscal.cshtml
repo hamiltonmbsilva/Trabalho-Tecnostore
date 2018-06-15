@@ -1,24 +1,336 @@
 ﻿@model Tecnostore.Model.DB.Model.Venda
 
+
 @{
     Layout = null;
     ViewBag.Title = "NotaFiscal";
 }
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
 <head>
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/Stilo.css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <h1>NF-e Tropical Bears</h1>
-    <hr />
-    <div class="container-fluid">
+    <br />
+
+    @* Configuração da parte data de recebimento e Numero da nota Fiscal*@
+    <div class="container-fluid" id="notafiscaltopo">
+
         <div class="row">
-            <table class="table table-bordered">
+            <div class="col-md-12">
+
+                <div class="col-md-10">
+                    <table class="table table-bordered" id="tabelanota">
+                        <tr class="trEspaco1">
+                            <td class="tdEspaco"></td>
+                        </tr>
+                        <tr class="trEspaco">
+                            <th class="thAltura">Data de Recebimento</th>
+                            <th class="thAltura">Indentificação e assinatura do recebedor</th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-2">
+                    <table class="table table-bordered" id="tabelanota">
+                        <tr class="trEspaco">
+                            <th class="thnota">
+                                NF-e <br />
+                                N° @Model.Id <br />
+                                Série 1
+                            </th>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <p class="espacoLinha">-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+    @*Configuração da Parte da Logo, Danfe e codigo de barra *@
+    <div class="container-fluid" id="logo">
+
+        <div class="row">
+            <div class="col-md-12">
+                @*Configuração da Logo*@
+                <div class="col-md-5">
+                    <table class="table table-bordered" id="tabelanota">
+                       
+                            <tr class="logoCaixa">
+                                <th class="logoNome"> Tecnostore</th>
+                            </tr>
+                            
+                    </table>
+                </div>
+                @*Configuração do Danfe*@
+                <div class="col-md-2">
+                    <table class="table table-bordered" id="tabelanota">
+                        <tr class="">
+
+                            <p class="danfe">
+                                DANFE<br />
+                                Documento Auxiliar<br />
+                                da Nota Fiscal<br />
+                                Eletronica
+                            </p>
+                            <td>
+                                0-Entrada<br />
+                                1-Saida
+                            </td>
+                            <th> 1 </th>
+
+                        </tr>
+                        <tr>
+                            <p>
+                                <b>N°</b>@Model.Id<br />
+                                SERIE: 1<br />
+                                Página: 1 de 1
+                            </p>
+
+                        </tr>
+                    </table>
+
+                </div>
+                @*Configuração do controle do fisco, chave de acesso, Conseulta*@
+                <div class="col-md-5">
+                    <table class="table table-bordered" id="tabelanota">
+                        <tr class="controleFisco">
+                            <th class="thcontrole">
+                                Controle do Fisco
+                            </th>
+                        </tr>
+                        <tr class="chabeAcesso">
+                            <th class="thchave">
+                                Chave de Acesso
+                            </th>
+                        </tr>
+                        <tr class="consulta">
+                            <th class="thconsulta">
+                                Consulta de autenticação no portal nacional da NF-e<br />
+                                www.nfe.fazenda.gov.br/portal<br />
+                                ou no site da Sefaz autorizadora
+                            </th>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    @*Emitente configurar*@
+    <div class="row" id="emitente">
+        <h3>Emitente</h3>
+        <table class="table table-bordered" id="tabelanota">
+            <thead>
+                <tr>
+                    <th>
+                        CNPJ<br />
+                        1111111111
+                    </th>
+                    <th>
+                        Nome/Razao Social<br />
+                        Tecnostore LTDA
+                    </th>
+                    <th>
+                        UF <br />
+                        MG
+                    </th>
+                </tr>
+            </thead>
+
+            <thead>
+                <tr class="operacao">
+                    <th c>
+                        Natureza da Operacao<br />
+                        Venda
+                    </th>
+                    <th>
+                        Número de protocolo de autorização de uso da NF-e<br />
+                        00000
+                    </th>
+                    <th>
+                        Incrição Estadual<br />
+                        0000
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    @*Destinatario*@
+    <div class="row" id="destinatario">
+        <h3 class="h3Destinatario">Destinatario</h3>
+        <div class="col-md-10">
+
+            <table class="table table-bordered" id="t">
+                <thead>
+                    <tr>
+                        <th>
+                            CPF/CNPJ<br />
+                            <p>1111111111</p>
+                        </th>
+                        <th>
+                            Nome/Razao Social<br />
+                            <p>@Model.Endereco.Usuario.Nome</p>
+                        </th>
+                        <th>
+                            Endereço<br />
+                            <p>@Model.Endereco.Logradouro</p>
+                        </th>
+                        <th>
+                            Numero<br />
+                            <p>@Model.Endereco.Numero</p>
+                        </th>
+                    </tr>
+                </thead>
+
+                <thead>
+
+                    <tr class="endereco">
+                        <th>Complemento<br /><p>@Model.Endereco.Complemento</p></th>
+                        <th>Cidade<br /><p>@Model.Endereco.Cidade</p></th>
+                        <th>CEP<br /><p>@Model.Endereco.CEP</p></th>
+                        <th>UF<br /><p>@Model.Endereco.Estado</p></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-md-2" id="data">
+            <table class="table table-bordered" id="tabelanota">
+                <thead>
+                    <tr class="trData">
+                        <th class="thData">
+                            Data emissão<br />
+                            @Model.Data
+                        </th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="trData">
+                        <th class="thData">
+                            Data saida<br />
+                            @Model.DataPagamento
+                        </th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="trData">
+                        <th class="thData">
+                            Hora saida<br />
+                            @Model.DataPagamento
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    @*Calcular Imposto*@
+    <div class="row" id="imposto">
+        <div class="col-md-12">
+            <h3>Calculo Imposto</h3>
+
+            <table class="table table-bordered" id="tabelanota">
+                <thead>
+                    <tr>
+                        <th>Base de cálculo do ICMS<br /><p> 0,00</p></th>
+                        <th>Valor do ICMS<br /><p> 0,00</p></th>
+                        <th>Base de Calculo do ICMS Subst.<br /><p> 0,00</p></th>
+                        <th>Valor do ICMS Sunst.<br /><p> 0,00</p></th>
+                        <th>Valor dos produtos<br /><p>R$ @Model.ValorTotal</p></th>
+                    </tr>
+                </thead>
+
+                <thead>
+                    <tr class="">
+                        <th>Valor do frete<br /><p> 0,00</p></th>
+                        <th>Valor do Seguro<br /><p> 0,00</p></th>
+                        <th>Desconto<br /><p> 0,00</p></th>
+                        <th>Valor do IPI<br /><p> 0,00</p></th>
+                        <th>Valor total da nota<br /><p> R$ @Model.ValorTotal</p></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+    @*Transpostador/Volumes Transportados*@
+    <div class="row" id="transporte">
+        <div class="col-md-12">
+            <h3>Transpostador/Volumes Transportados</h3>
+
+            <table class="table table-bordered" id="tabelanota">
+                <thead>
+                    <tr>
+                        <th>Nome<br /><p>Transportadora Viagem</p></th>
+                        <th>Código ANTT<br /><p>0000</p></th>
+                        <th>Frete por conta<br /><p>01</p></th>
+                        <th>Placa do Veiculo<br /><p>CNP 2525</p></th>
+                        <th>UF<br /><p>MG</p></th>
+                        <th>CNPJ/CPF<br /><p>00000000000\0000</p></th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="">
+                        <th>
+                            Endereço<br />
+                            <p>@Model.Endereco.Logradouro</p>
+                        </th>
+                        <th>
+                            Numero<br />
+                            <p>@Model.Endereco.Numero</p>
+                        </th>
+                        <th>Complemento<br /><p>@Model.Endereco.Complemento</p></th>
+                        <th>Cidade<br /><p>@Model.Endereco.Cidade</p></th>
+                        <th>CEP<br /><p>@Model.Endereco.CEP</p></th>
+                        <th>UF<br /><p>@Model.Endereco.Estado</p></th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr class="">
+
+                        <th>
+                            Quantidade<br />
+                        </th>
+                        <th>
+                            Especie<br />
+
+                        </th>
+                        <th>Marca<br /></th>
+                        <th>Numeração<br /></th>
+                        <th>Peso Bruto<br /></th>
+                        <th>Peso Liquido<br /></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+
+
+    @*Pagamento*@
+    <div class="row" id="pagamento">
+        <div class="col-md-12">
+            <h3>Intens da nota fiscal</h3>
+
+            <table class="table table-bordered" id="tabelanota">
                 <thead>
                     <tr>
                         <th>Identificador</th>
-                        <th>Modelo</th>
                         <th>Quantidade</th>
+                        <th>Preço Unitario</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
@@ -33,79 +345,33 @@
                         </tr>
                     }
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <th>Total:</th>
+                        <td>@Model.Id</td>
+                        <td>@Model.ItemVendas</td>
+                        <th>@Model.ValorTotal</th>
                         <td>@Model.ValorTotal</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <h3>Emitente</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>CNPJ</th>
-                        <th>Nome/Razao Social</th>
-                        <th> UF </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            1111111111
-                        </td>
-                        <td>
-                            Tecnostore LTDA
-                        </td>
-                        <td>MG</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <h3>Destinatario</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>CPF/CNPJ</th>
-                        <th>Nome/Razao Social</th>
-                        <th>CEP</th>
-                        <th>UF</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1111111111</td>
-                        <td>@Model.Endereco.Usuario.Nome</td>
-                        <td>@Model.Endereco.CEP</td>
-                        <td>MG</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <h3>Situacao Atual: Autorizada</h3>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Natureza da Operacao</th>
-                        <th>Forma de Pagamento</th>
-                        <th>Parcelas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Venda</td>
-                        <td>@Model.FormaPagamento.Descricao</td>
-                        <td>@Model.Parcelas</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    @*Dados Adicionais*@
+    <div class="row" id="dados">
+        <div class="col-md-12">
+            <h3>Dados Adicionais</h3>
+            <table class="table table-bordered" id="tabelanota">               
+                    <tr>
+                        <th class="obs">Obeservações</th>
+                        <th class="fisco">Reservado a Fisco</th>
+                        
+                    </tr>
+                               
+            </table>
+        </div>
+    </div>
+
+
     <a href="/carrinho/venda/@Model.Id" class="btn btn-block">Voltar</a>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

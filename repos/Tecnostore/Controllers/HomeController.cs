@@ -296,7 +296,7 @@ namespace Tecnostore.Controllers
             }
 
 
-            car.CarrinhoProduto = DbFactory.Instance.CarrinhoProdutoRepository.FindAll().Where(x => x.Carrinho.Id == car.Id).ToList();
+            car.CarrinhoProduto = DbFactory.Instance.CarrinhoProdutoRepository.FindAll().Where(x => x.Id == car.Id).ToList();
 
             return View(car);
 
@@ -342,7 +342,7 @@ namespace Tecnostore.Controllers
 
             cp = DbFactory.Instance.CarrinhoProdutoRepository.Save(cp);
 
-            car.CarrinhoProduto = DbFactory.Instance.CarrinhoProdutoRepository.FindAll().Where(x => x.Carrinho.Id == car.Id).ToList();
+            car.CarrinhoProduto = DbFactory.Instance.CarrinhoProdutoRepository.FindAll().Where(x => x.Id == car.Id).ToList();
 
             HttpContext.Session["cartID"] = car.Id;
 

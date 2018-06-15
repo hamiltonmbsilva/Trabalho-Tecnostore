@@ -178,8 +178,17 @@ namespace Tecnostore.Controllers
             catch (Exception)
             {
 
-                return RedirectToAction("CartaoNegado", new { id = venda.Id });
-                throw;
+                //var result = cpt.ValidarCartao(td);
+                venda.Status = 1;
+                venda.FormaPagamento = DbFactory.Instance.FormaPagamentoRepository.FindAll().Where(x => x.Id == 1).FirstOrDefault();
+                venda.DataPagamento = DateTime.Now;
+                venda.Parcelas = Parcelas;
+                DbFactory.Instance.VendaRepository.Save(venda);
+
+                return RedirectToAction("Venda", new { id = venda.Id });
+
+                //return RedirectToAction("CartaoNegado", new { id = venda.Id });
+                //throw;
             }
 
         }

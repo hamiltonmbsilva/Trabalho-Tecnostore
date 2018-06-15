@@ -18,6 +18,7 @@ namespace Tecnostore.Model.DB.Model
         public virtual Categoria Categoria { get; set; }
 
         public virtual IList<Comentario> Comentarios { get; set; }
+        public virtual IList<Desconto> Descontos { get; set; }
 
         public virtual IList<Imagem> Imagens { get; set; }
 
@@ -56,7 +57,7 @@ namespace Tecnostore.Model.DB.Model
     {
         public ProdutoMap()
         {
-            Id(x => x.Id, m => m.Generator(Generators.Identity));           
+            Id(x => x.Id, m => m.Generator(Generators.Identity));
 
             Property(x => x.Nome);
             Property(x => x.Descricao);
@@ -68,7 +69,7 @@ namespace Tecnostore.Model.DB.Model
                 m.Column("categoria_id");
                 m.Class(typeof(Categoria));
                 m.Lazy(LazyRelation.NoLazy);
-            });          
+            });
 
             Bag<Imagem>(x => x.Imagens, m =>
             {
@@ -88,20 +89,23 @@ namespace Tecnostore.Model.DB.Model
             },
             r => r.OneToMany());
 
-            /* ManyToOne(x => x.Subcategoria, m => {
-               m.Cascade(Cascade.All);
-               m.Column("subcategoria_id");
-               m.Class(typeof(Subcategoria));
-               m.Lazy(LazyRelation.NoLazy);
-           });
+            
 
-           ManyToOne(x => x.Tipo, m => {
-               m.Cascade(Cascade.All);
-               m.Column("tipo_id");
-               m.Class(typeof(Tipo));
-               m.Lazy(LazyRelation.NoLazy);
-           }); */
+                /* ManyToOne(x => x.Subcategoria, m => {
+                   m.Cascade(Cascade.All);
+                   m.Column("subcategoria_id");
+                   m.Class(typeof(Subcategoria));
+                   m.Lazy(LazyRelation.NoLazy);
+               });
 
+               ManyToOne(x => x.Tipo, m => {
+                   m.Cascade(Cascade.All);
+                   m.Column("tipo_id");
+                   m.Class(typeof(Tipo));
+                   m.Lazy(LazyRelation.NoLazy);
+               }); */
+
+           
         }
     }
 }
