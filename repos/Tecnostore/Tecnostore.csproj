@@ -260,6 +260,12 @@
     <Content Include="Content\stilo.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Imagem\bethesda-vr-games.png" />
+    <Content Include="Imagem\celular MI.png" />
+    <Content Include="Imagem\Celular Motorola.png" />
+    <Content Include="Imagem\PS4.png" />
+    <Content Include="Imagem\Xbox One.png" />
+    <Content Include="Imagem\Xbox-One-STARZ.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
